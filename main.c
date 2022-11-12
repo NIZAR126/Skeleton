@@ -6,8 +6,6 @@
 #include "fonctions_SDL.h"
 #include "constante.h"
 
-#define TAILLE_BLOC 32
-
 int main(int argc, char *argv[]) {
     int nbLig = 0;
     int nbCol = 0;
@@ -60,6 +58,6 @@ int main(int argc, char *argv[]) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();
-    
+
     return 0;
 }
