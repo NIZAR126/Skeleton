@@ -4,7 +4,7 @@ LIBS =
 LDFLAGS = `sdl2-config --cflags --libs`
 INCLUDES = 
 EXEC = main
-SRC = main.c fonctions_fichiers.c fonctions_SDL.c
+SRC = main.c fonctions_fichiers.c fonctions_SDL.c textures.c
 OBJ = $(SRC:.c=.o)
 
 all: $(EXEC)
