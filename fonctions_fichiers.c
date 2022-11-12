@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "fonctions_fichiers.h"
-
+/*allouer un tableau de caractères de taille n ◊ m, où n et m sont les nombres de lignes et de colonnes, et initialiser
+ce tableau avec le caractère espace (’ ’).*/
 char** allouer_tab_2D(int n, int m) {
     char** tab = (char**) malloc(n * sizeof(char*));
     if (tab == NULL) {
@@ -17,7 +18,7 @@ char** allouer_tab_2D(int n, int m) {
     }
     return tab;
 }
-
+/*libérer un tableau à deux dimensions, de n lignes.*/
 void desallouer_tab_2D(char** tab, int n) {
     for(int i = 0; i < n; i++) {
         free(tab[i]);
@@ -25,7 +26,7 @@ void desallouer_tab_2D(char** tab, int n) {
     free(tab);
     tab = NULL;
 }
-
+/*afficher le contenu d’un tableau de caractères de taille n ◊ m.*/
 void afficher_tab_2D(char** tab, int n, int m) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -34,7 +35,8 @@ void afficher_tab_2D(char** tab, int n, int m) {
         printf("\n");
     }
 }
-
+/*compter le nombre max de lignes (nbLig) et de colonnes (nbCol) dans le fichier
+dont le nom est nomFichier.*/
 void taille_fichier(const char* nomFichier, int* nbLig, int* nbCol) {
     FILE* fichier = fopen(nomFichier, "r");
     char c;
@@ -60,7 +62,8 @@ void taille_fichier(const char* nomFichier, int* nbLig, int* nbCol) {
     }
     fclose(fichier);
 }
-
+/*lire un fichier dont le nom est nomFichier, et retourner le tableau qui contient les caractères du fichier
+tel qu’une ligne du tableau correspond à une ligne du fichier.*/
 char** lire_fichier(const char* nomFichier) {
     FILE* fichier = fopen(nomFichier, "r");
     char c;
