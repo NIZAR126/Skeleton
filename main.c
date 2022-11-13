@@ -5,17 +5,21 @@
 #include "fonctions_fichiers.h"
 #include "fonctions_SDL.h"
 #include "constante.h"
+#include "textures.h"
+#include "world.h"
+#include "evenements.h"
 
 int main(int argc, char *argv[]) {
+    s_world_t* world = malloc(sizeof(*world));
+    s_textures_t* textures = malloc(sizeof(*textures));
+    SDL_Window* fenetre;
+    SDL_Event event;
+
     int nbLig = 0;
     int nbCol = 0;
     taille_fichier("terrain.txt", &nbLig, &nbCol);
     char** tab = lire_fichier("terrain.txt");
     afficher_tab_2D(tab, nbLig, nbCol);
-    
-    SDL_Window* fenetre;
-    SDL_Event evenements;
-    bool terminer = false;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Erreur d’initialisation de la SDL: %s",SDL_GetError());
@@ -34,27 +38,26 @@ int main(int argc, char *argv[]) {
 
     SDL_Renderer* renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_ACCELERATED);
     
-    SDL_Texture* blocs = charger_image("pavage.bmp", renderer);
+    //SDL_Texture* blocs = charger_image("pavage.bmp", renderer);
     int blocW, blocH;
     int nbBlocsW = 16;
     int nbBlocsH = 10;
     SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs;
-    init_textures_map(blocs, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
+    textures->blocs = charger_image("pavage.bmp", renderer);
+    textures->sprite = charger_image("skeleton.bmp", renderer);
+    init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
+    //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
+    // /!\ init_world(world, 0, 0, 50, 50, VITESSE);
 
-    while (!terminer) {
-        while (SDL_PollEvent(&evenements)) {
-            switch (evenements.type) {
-                case SDL_QUIT:
-                    terminer = true;
-                    break;
-            }
-        }
-        SDL_RenderClear(renderer);
-        afficher_map(renderer, blocs, srcBlocs, destBlocs, &blocW, &blocH, tab, nbLig, nbCol);  
+    while (!world->fin) {
+        evenements(event, world);
+        //SDL_RenderClear(renderer);
+        // /!\ refresh_graphics(renderer, textures, world);
+        afficher_map(renderer, textures, srcBlocs, destBlocs, &blocW, &blocH, tab, nbLig, nbCol);  
         SDL_RenderPresent(renderer);  
     }
 
-    SDL_DestroyTexture(blocs);
+    SDL_DestroyTexture(textures->blocs);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();
