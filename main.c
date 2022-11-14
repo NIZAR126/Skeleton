@@ -15,18 +15,21 @@ int main(int argc, char *argv[]) {
     SDL_Window* fenetre;
     SDL_Event event;
 
+    //lecture du fichier terrain et retranscription en un tableau
     int nbLig = 0;
     int nbCol = 0;
     taille_fichier("terrain.txt", &nbLig, &nbCol);
     char** tab = lire_fichier("terrain.txt");
     afficher_tab_2D(tab, nbLig, nbCol);
 
+    //initialisation sdl
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Erreur d’initialisation de la SDL: %s",SDL_GetError());
         SDL_Quit();
         return EXIT_FAILURE;
     }
 
+    //creation de la fenetre sdl
     fenetre = SDL_CreateWindow("Fenetre SDL", SDL_WINDOWPOS_CENTERED,
     SDL_WINDOWPOS_CENTERED, nbCol * TAILLE_BLOC, nbLig * TAILLE_BLOC, SDL_WINDOW_RESIZABLE);
 
@@ -36,16 +39,17 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    //creation du renderer
     SDL_Renderer* renderer = SDL_CreateRenderer(fenetre, -1, SDL_RENDERER_ACCELERATED);
     
-    //SDL_Texture* blocs = charger_image("pavage.bmp", renderer);
-    int blocW, blocH;
     int nbBlocsW = 16;
     int nbBlocsH = 10;
-    SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs;
+    //creation d'un tableau de rectangle de la taille du nombre de blocs du fichier bmp et d'un rectangle pour la destination
+    SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs; 
+    //chargement des textures des images
     textures->blocs = charger_image("pavage.bmp", renderer);
     textures->sprite = charger_image("skeleton.bmp", renderer);
-    init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
+    init_textures_map(srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
     // /!\ init_world(world, 0, 0, 50, 50, VITESSE);
 
@@ -53,7 +57,7 @@ int main(int argc, char *argv[]) {
         evenements(event, world);
         //SDL_RenderClear(renderer);
         // /!\ refresh_graphics(renderer, textures, world);
-        afficher_map(renderer, textures, srcBlocs, destBlocs, &blocW, &blocH, tab, nbLig, nbCol);  
+        afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
         SDL_RenderPresent(renderer);  
     }
 

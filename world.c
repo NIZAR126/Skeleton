@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "world.h"
 
+//initialisation de world(sprite, vitesse du sprite et fin de la boucle(jeu))
 void init_world(s_world_t* world, int x, int y, int w, int h, int vitesse) {
     world->sprite->x = x;
     world->sprite->y = y;
@@ -11,6 +12,8 @@ void init_world(s_world_t* world, int x, int y, int w, int h, int vitesse) {
     world->vitesse = vitesse;
     world->fin = false;
 }
+
+//collisions
 
 bool collision_droit(s_sprite_t* sprite, char** tab) {
     bool col = false;

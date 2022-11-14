@@ -6,30 +6,28 @@
 #include "constante.h"
 #include "world.h"
 
-void init_textures_map(s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH, int* blocW, int* blocH) {
-    SDL_QueryTexture(textures->blocs, NULL, NULL, blocW, blocH);
-    *blocW = *blocW / nbBlocsW;
-    *blocH = *blocH / nbBlocsH;
-
+//initialisation de la taille de chaque rectangle 
+void init_textures_map(SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH) {
     for (int i = 0; i < nbBlocsW; i++) {
         for (int j = nbBlocsH - 1; j >= 0; j--) {
             srcBlocs[i].x = i * TAILLE_BLOC;
             srcBlocs[i].y = j * TAILLE_BLOC;
-            srcBlocs[i].w = *blocW;
-            srcBlocs[i].h = *blocH; 
+            srcBlocs[i].w = TAILLE_BLOC;
+            srcBlocs[i].h = TAILLE_BLOC; 
         }
     }
 }
 
-void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBlocs[], SDL_Rect destBlocs, int* blocW, int* blocH, char** tab, int nbLig, int nbCol) {
+//affichage de la map en initialisant destBlocs en fonction du tableau cree a partir du terrain.txt
+void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBlocs[], SDL_Rect destBlocs, char** tab, int nbLig, int nbCol) {
     for (int i = 0; i < nbLig; i++) {
         for (int j = 0; j < nbCol; j++) {
             destBlocs.x = j * TAILLE_BLOC;
             destBlocs.y = i * TAILLE_BLOC;
-            destBlocs.w = *blocW;
-            destBlocs.h = *blocH;
+            destBlocs.w = TAILLE_BLOC;
+            destBlocs.h = TAILLE_BLOC;
 
-            switch (tab[i][j]){
+            switch (tab[i][j]) {    //affichage des textures (srcBlocs[]) en fonction des caracteres du tableau
             case '1':
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[9], &destBlocs);
                 break;
@@ -55,6 +53,7 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
     textures->sprite = charger_image_transparente("skeleton.bmp", renderer, 0, 0, 0);
 }*/
 
+//application de la texture du sprite en fonction de sa position
 void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite) {
     SDL_Rect dest = {0, 0, 0, 0};
     SDL_QueryTexture(textures->sprite, NULL, NULL, &dest.w, &dest.h);
@@ -63,6 +62,7 @@ void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sp
     SDL_RenderCopy(renderer, textures->sprite, NULL, &dest);
 }
 
+//rafraichissement de la fenetre et donc de l'affichage du sprite
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world) {
     SDL_RenderClear(renderer);
     apply_sprite(renderer, textures, world->sprite);

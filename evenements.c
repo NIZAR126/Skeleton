@@ -6,6 +6,7 @@
 #include "world.h"
 #include "evenements.h"
 
+//gestion des evenements
 void evenements(SDL_Event event, s_world_t* world) {
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -13,7 +14,7 @@ void evenements(SDL_Event event, s_world_t* world) {
                 world->fin = true;
                 break;
             case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
+                switch (event.key.keysym.sym) { //evenements de type clavier
                     case SDLK_ESCAPE:
                         world->fin = true;
                         break; 
