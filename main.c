@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     while (!world->fin) {
         evenements(event, world);
         //SDL_RenderClear(renderer);
-        // /!\ refresh_graphics(renderer, textures, world);
+        //refresh_graphics(renderer, textures, world);
         afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
         SDL_RenderPresent(renderer);  
     }

@@ -55,11 +55,17 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
 
 //application de la texture du sprite en fonction de sa position
 void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite) {
-    SDL_Rect dest = {0, 0, 0, 0};
-    SDL_QueryTexture(textures->sprite, NULL, NULL, &dest.w, &dest.h);
+    SDL_Rect src, dest;
+    src.x = 0;
+    src.y = 0;
+    src.w = TAILLE_SPRITE;
+    src.h = TAILLE_SPRITE;
+
     dest.x = sprite->x;
     dest.y = sprite->y;
-    SDL_RenderCopy(renderer, textures->sprite, NULL, &dest);
+    dest.w = TAILLE_SPRITE;
+    dest.h = TAILLE_SPRITE;
+    SDL_RenderCopy(renderer, textures->sprite, &src, &dest);
 }
 
 //rafraichissement de la fenetre et donc de l'affichage du sprite

@@ -1,2 +1,3 @@
 #define TAILLE_BLOC 32
+#define TAILLE_SPRITE 50
 #define VITESSE 2 
