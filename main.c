@@ -10,8 +10,8 @@
 #include "evenements.h"
 
 int main(int argc, char *argv[]) {
-    s_world_t* world = malloc(sizeof(*world));
-    s_textures_t* textures = malloc(sizeof(*textures));
+    s_world_t* world = malloc(sizeof(s_world_t));
+    s_textures_t* textures = malloc(sizeof(s_textures_t));
     SDL_Window* fenetre;
     SDL_Event event;
 
@@ -51,17 +51,17 @@ int main(int argc, char *argv[]) {
     textures->sprite = charger_image("skeleton.bmp", renderer);
     init_textures_map(srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
-    // /!\ init_world(world, 0, 0, 50, 50, VITESSE);
+    init_world(world, 50, 50, 50, 50);
 
     while (!world->fin) {
         evenements(event, world);
-        //SDL_RenderClear(renderer);
-        //refresh_graphics(renderer, textures, world);
+        refresh_graphics(renderer, textures, world);
         afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
         SDL_RenderPresent(renderer);  
     }
 
     SDL_DestroyTexture(textures->blocs);
+    SDL_DestroyTexture(textures->sprite);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();

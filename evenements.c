@@ -5,6 +5,7 @@
 #include "SDL2/SDL.h"
 #include "world.h"
 #include "evenements.h"
+#include "constante.h"
 
 //gestion des evenements
 void evenements(SDL_Event event, s_world_t* world) {
@@ -19,16 +20,16 @@ void evenements(SDL_Event event, s_world_t* world) {
                         world->fin = true;
                         break; 
                    case SDLK_RIGHT: 
-                        world->sprite->x += 1;
+                        world->sprite->x += VITESSE;
                         break;  
                     case SDLK_LEFT:
-                        world->sprite->x -= 1;
+                        world->sprite->x -= VITESSE;
                         break; 
                     case SDLK_UP:
-                        world->sprite->y -= 2;                    
+                        world->sprite->y -= 2 * VITESSE;                    
                         break;
                     case SDLK_DOWN:
-                        world->sprite->y += 1;
+                        world->sprite->y += VITESSE;
                         break;
                     default:
                         break;

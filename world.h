@@ -12,14 +12,13 @@ typedef struct s_sprite {
     int h;
 } s_sprite_t;
 
-
 typedef struct s_world {
     s_sprite_t* sprite;
     int vitesse;
     bool fin;
 } s_world_t;
 
-void init_world(s_world_t* world, int x, int y, int w, int h, int vitesse);
+void init_world(s_world_t* world, int x, int y, int w, int h);
 bool collision_droit(s_sprite_t* sprite, char** tab);
 bool collision_gauche(s_sprite_t* sprite, char** tab);
 bool collision_haut(s_sprite_t* sprite, char** tab);

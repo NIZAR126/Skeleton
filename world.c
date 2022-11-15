@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "world.h"
+#include "constante.h"
 
 //initialisation de world(sprite, vitesse du sprite et fin de la boucle(jeu))
-void init_world(s_world_t* world, int x, int y, int w, int h, int vitesse) {
+void init_world(s_world_t* world, int x, int y, int w, int h) {
+    world->sprite = malloc(sizeof(s_sprite_t));
     world->sprite->x = x;
     world->sprite->y = y;
     world->sprite->w = w;
     world->sprite->h = h;
-    world->vitesse = vitesse;
+    world->vitesse = VITESSE;
     world->fin = false;
 }
 
