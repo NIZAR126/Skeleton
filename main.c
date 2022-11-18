@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
     int nbCol = 0;
     taille_fichier("terrain.txt", &nbLig, &nbCol);
     char** tab = lire_fichier("terrain.txt");
+    printf("nbLig : %d, nbCol : %d", nbLig, nbCol);
     afficher_tab_2D(tab, nbLig, nbCol);
 
     //initialisation sdl
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]) {
         SDL_RenderClear(renderer);
         afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
         evenements(event, world, tab);
-        refresh_graphics(renderer, textures, world);
+        refresh_graphics(renderer, textures, world, tab);
         SDL_RenderPresent(renderer);  
     }
 

@@ -71,6 +71,9 @@ void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sp
 }
 
 //rafraichissement de la fenetre et donc de l'affichage du sprite
-void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world) {
+void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world, char** tab) {
+    /*while (!collision_bas(world->sprite, tab)) {
+        world->sprite->y += GRAVITE;
+    }*/
     apply_sprite(renderer, textures, world->sprite);
 }

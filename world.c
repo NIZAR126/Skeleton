@@ -20,7 +20,7 @@ void init_world(s_world_t* world, int x, int y, int w, int h) {
 bool collision_droit(s_sprite_t* sprite, char** tab) {
     bool col = false;
     for (int i = 0; i < sprite->h; i++) {
-        if(tab[sprite->y + i][sprite->x + sprite->w] != '0' && tab[sprite->y + i][sprite->x + sprite->w] != ' ') {
+        if (tab[(sprite->y + i) / TAILLE_BLOC][(sprite->x + sprite->w) / TAILLE_BLOC] != ' ' && (sprite->y + i) / TAILLE_BLOC !=  (sprite->x + sprite->w) / TAILLE_BLOC] != ) {
             col = true;
         }
     }
@@ -30,7 +30,7 @@ bool collision_droit(s_sprite_t* sprite, char** tab) {
 bool collision_gauche(s_sprite_t* sprite, char** tab) {
     bool col = false;
     for (int i = 0; i < sprite->h; i++) {
-        if(tab[sprite->y + i][sprite->x - 1] != '0' && tab[sprite->y + i][sprite->x - 1] != ' ') {
+        if (tab[(sprite->y + i) / TAILLE_BLOC][(sprite->x - 1) / TAILLE_BLOC] != ' ') {
             col = true;
         }
     }
@@ -40,7 +40,7 @@ bool collision_gauche(s_sprite_t* sprite, char** tab) {
 bool collision_haut(s_sprite_t* sprite, char** tab) {
     bool col = false;
     for (int i = 0; i < sprite->w; i++) {
-        if(tab[sprite->y-1][sprite->x + i] == '0' && tab[sprite->y-1][sprite->x + i] == ' ') {
+        if (tab[(sprite->y) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ') {
             col = true;
         }
     }
@@ -49,8 +49,8 @@ bool collision_haut(s_sprite_t* sprite, char** tab) {
 
 bool collision_bas(s_sprite_t* sprite, char** tab) {
     bool col = false;
-    for(int j = 0; j < sprite->w; j++) {
-        if(tab[sprite->y + sprite->h][sprite->x + j] == '0' && tab[sprite->y + sprite->h][sprite->x + j] == ' ') {
+    for (int i = 0; i < sprite->w; i++) {
+        if (tab[(sprite->y + sprite->h) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ') {
             col = true;
         }
     }
