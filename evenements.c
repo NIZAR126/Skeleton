@@ -8,7 +8,7 @@
 #include "constante.h"
 
 //gestion des evenements
-void evenements(SDL_Event event, s_world_t* world) {
+void evenements(SDL_Event event, s_world_t* world, char** tab) {
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
@@ -20,16 +20,24 @@ void evenements(SDL_Event event, s_world_t* world) {
                         world->fin = true;
                         break; 
                    case SDLK_RIGHT: 
-                        world->sprite->x += VITESSE;
+                        if (!collision_droit(world->sprite, tab)) {
+                            world->sprite->x += VITESSE;
+                        }
                         break;  
                     case SDLK_LEFT:
-                        world->sprite->x -= VITESSE;
+                        if (!collision_gauche(world->sprite, tab)) {
+                            world->sprite->x -= VITESSE;
+                        }
                         break; 
                     case SDLK_UP:
-                        world->sprite->y -= 2 * VITESSE;                    
+                        if (!collision_haut(world->sprite, tab)) {
+                            world->sprite->y -= 2 * VITESSE;
+                        }                    
                         break;
                     case SDLK_DOWN:
-                        world->sprite->y += VITESSE;
+                        if (!collision_bas(world->sprite, tab)) {
+                            world->sprite->y += VITESSE;
+                        }
                         break;
                     default:
                         break;

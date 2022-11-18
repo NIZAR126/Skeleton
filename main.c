@@ -48,15 +48,16 @@ int main(int argc, char *argv[]) {
     SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs; 
     //chargement des textures des images
     textures->blocs = charger_image("pavage.bmp", renderer);
-    textures->sprite = charger_image("skeleton.bmp", renderer);
+    textures->sprite = charger_image_transparente("skeleton.bmp", renderer, 0, 0, 0);
     init_textures_map(srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
-    init_world(world, 50, 50, 50, 50);
+    init_world(world, 0, 0, 50, 50);
 
     while (!world->fin) {
-        evenements(event, world);
-        refresh_graphics(renderer, textures, world);
+        SDL_RenderClear(renderer);
         afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
+        evenements(event, world, tab);
+        refresh_graphics(renderer, textures, world);
         SDL_RenderPresent(renderer);  
     }
 
