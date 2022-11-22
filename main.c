@@ -57,9 +57,10 @@ int main(int argc, char *argv[]) {
     while (!world->fin) {
         SDL_RenderClear(renderer);
         afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
-        evenements(event, world, tab);
-        refresh_graphics(renderer, textures, world, tab);
+        evenements(event, world, tab, nbLig, nbCol);
+        refresh_graphics(renderer, textures, world);
         SDL_RenderPresent(renderer);  
+        SDL_Delay(30);
     }
 
     SDL_DestroyTexture(textures->blocs);

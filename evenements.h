@@ -4,6 +4,6 @@
 #include <SDL2/SDL.h>
 #include "world.h"
 
-void evenements(SDL_Event event, s_world_t* world, char** tab);
+void evenements(SDL_Event event, s_world_t* world, char** tab, int nbLig, int nbCol);
 
 #endif
