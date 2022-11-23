@@ -7,13 +7,17 @@
 #include "world.h"
 
 //initialisation de la taille de chaque rectangle 
-void init_textures_map(SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH) {
+void init_textures_map(s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH) {
+    int blocW = 0, blocH = 0;
+    SDL_QueryTexture(textures->blocs, NULL, NULL, &blocW, &blocH);
+    blocW /= nbBlocsW;
+    blocH /= nbBlocsH;
     for (int i = 0; i < nbBlocsW; i++) {
         for (int j = nbBlocsH - 1; j >= 0; j--) {
-            srcBlocs[i].x = i * TAILLE_BLOC;
-            srcBlocs[i].y = j * TAILLE_BLOC;
-            srcBlocs[i].w = TAILLE_BLOC;
-            srcBlocs[i].h = TAILLE_BLOC; 
+            srcBlocs[i].x = i * blocW;
+            srcBlocs[i].y = j * blocH;
+            srcBlocs[i].w = blocW;
+            srcBlocs[i].h = blocH; 
         }
     }
 }
@@ -35,10 +39,13 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
                 SDL_RenderCopy(renderer, textures->lave, NULL, &destBlocs);
                 break;
             case '3':
-                SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[2], &destBlocs);
+                SDL_RenderCopy(renderer, textures->cles, NULL, &destBlocs);
                 break;
             case '4':
-                SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[3], &destBlocs);
+                SDL_RenderCopy(renderer, textures->porteFerme, NULL, &destBlocs);
+                break;
+            case '5':
+                SDL_RenderCopy(renderer, textures->porteOuverte, NULL, &destBlocs);
                 break;
             default:
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[1], &destBlocs);
@@ -62,11 +69,11 @@ void afficher_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t*
     //src.h = sprite->h;
 
     SDL_Rect dest;
-    SDL_QueryTexture(textures->sprite, NULL, NULL, &dest.w, &dest.h);
+    //SDL_QueryTexture(textures->sprite, NULL, NULL, &dest.w, &dest.h);
     dest.x = sprite->x;
     dest.y = sprite->y;
-    //dest.w = sprite->w;
-    //dest.h = sprite->h;
+    dest.w = sprite->w;
+    dest.h = sprite->h;
     SDL_RenderCopy(renderer, textures->sprite, NULL, &dest);
 }
 

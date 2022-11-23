@@ -19,9 +19,9 @@ int main(int argc, char *argv[]) {
     int nbLig = 0;
     int nbCol = 0;
     taille_fichier("terrain.txt", &nbLig, &nbCol);
-    char** tab = lire_fichier("terrain.txt");
-    printf("nbLig : %d, nbCol : %d", nbLig, nbCol);
-    afficher_tab_2D(tab, nbLig, nbCol);
+    //char** tab = lire_fichier("terrain.txt");
+    //printf("nbLig : %d, nbCol : %d", nbLig, nbCol);
+    //afficher_tab_2D(tab, nbLig, nbCol);
 
     //initialisation sdl
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -52,16 +52,20 @@ int main(int argc, char *argv[]) {
     textures->sprite = charger_image_transparente("ressources/skeleton.bmp", renderer, 0, 0, 0);
     textures->lave = charger_image("ressources/lave.bmp", renderer);
     textures->vies = charger_image_transparente("ressources/vies.bmp", renderer, 255, 255, 255);
-    init_textures_map(srcBlocs, nbBlocsW, nbBlocsH);
+    textures->cles = charger_image("ressources/cle.bmp", renderer);
+    textures->porteFerme = charger_image("ressources/porteFerme.bmp", renderer);
+    textures->porteOuverte = charger_image("ressources/porteOuverte.bmp", renderer);
+    init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
-    init_world(world, 0, 0, 50, 50);
+    init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE);
 
     while (!world->fin) {
         SDL_RenderClear(renderer);
-        afficher_map(renderer, textures, srcBlocs, destBlocs, tab, nbLig, nbCol);  
-        evenements(event, world, tab, nbLig, nbCol);
+        afficher_map(renderer, textures, srcBlocs, destBlocs, world->tab, nbLig, nbCol);  
+        evenements(event, world, nbLig, nbCol);
         refresh_graphics(renderer, textures, world);
         SDL_RenderPresent(renderer);  
+        //printf("x: %d, y: %d\n", world->sprite->x, world->sprite->y);
         SDL_Delay(30);
     }
 

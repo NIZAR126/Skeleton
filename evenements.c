@@ -8,7 +8,7 @@
 #include "constante.h"
 
 //gestion des evenements
-void evenements(SDL_Event event, s_world_t* world, char** tab, int nbLig, int nbCol) {
+void evenements(SDL_Event event, s_world_t* world, int nbLig, int nbCol) {
     Uint8 *state = SDL_GetKeyboardState(NULL);
     while (SDL_PollEvent(&event)) {
         //SDL_WaitEvent(&event);
@@ -17,13 +17,13 @@ void evenements(SDL_Event event, s_world_t* world, char** tab, int nbLig, int nb
                 world->fin = true;
                 break;
         }
-        if (state[SDL_SCANCODE_RIGHT] && !collision_droit(world->sprite, tab, nbCol)) {
+        if (state[SDL_SCANCODE_RIGHT] && !collision_droit(world->sprite, world->tab, nbCol)) {
             world->sprite->x += VITESSE;
         }
-        if (state[SDL_SCANCODE_LEFT] && !collision_gauche(world->sprite, tab)) {
+        if (state[SDL_SCANCODE_LEFT] && !collision_gauche(world->sprite, world->tab)) {
             world->sprite->x -= VITESSE;
         }
-        if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, tab) && collision_bas(world->sprite, tab, nbLig)) {
+        if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, world->tab) && collision_bas(world->sprite, world->tab, nbLig)) {
             world->sprite->y -= 10 * VITESSE;
         }
         /*if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, tab) && state[SDL_SCANCODE_RIGHT] && !collision_droit(world->sprite, tab, nbCol)) {
@@ -65,7 +65,7 @@ void evenements(SDL_Event event, s_world_t* world, char** tab, int nbLig, int nb
             break;
         } */
     }
-    deplacements_map(world, tab, nbLig);
+    deplacements_map(world, nbLig, nbCol);
 }
 
 /*void evenements(SDL_Event event, s_world_t* world, char** tab, int nblig, int nbCol) {
