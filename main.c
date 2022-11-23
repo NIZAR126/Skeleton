@@ -48,8 +48,10 @@ int main(int argc, char *argv[]) {
     //creation d'un tableau de rectangle de la taille du nombre de blocs du fichier bmp et d'un rectangle pour la destination
     SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs; 
     //chargement des textures des images
-    textures->blocs = charger_image("pavage.bmp", renderer);
-    textures->sprite = charger_image_transparente("skeleton.bmp", renderer, 0, 0, 0);
+    textures->blocs = charger_image("ressources/pavage.bmp", renderer);
+    textures->sprite = charger_image_transparente("ressources/skeleton.bmp", renderer, 0, 0, 0);
+    textures->lave = charger_image("ressources/lave.bmp", renderer);
+    textures->vies = charger_image_transparente("ressources/vies.bmp", renderer, 255, 255, 255);
     init_textures_map(srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
     init_world(world, 0, 0, 50, 50);

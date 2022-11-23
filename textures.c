@@ -32,7 +32,7 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[9], &destBlocs);
                 break;
             case '2':
-                SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[11], &destBlocs);
+                SDL_RenderCopy(renderer, textures->lave, NULL, &destBlocs);
                 break;
             case '3':
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[2], &destBlocs);
@@ -54,7 +54,7 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
 }*/
 
 //application de la texture du sprite en fonction de sa position
-void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite) {
+void afficher_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite) {
     //SDL_Rect src;
     //src.x = 0;
     //src.y = 0;
@@ -70,7 +70,19 @@ void apply_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sp
     SDL_RenderCopy(renderer, textures->sprite, NULL, &dest);
 }
 
+void afficher_vies(SDL_Renderer* renderer, s_textures_t* textures, int nbVies) {
+    SDL_Rect dest;
+    dest.w = TAILLE_VIE;
+    dest.h = TAILLE_VIE;
+    for (int i = 0; i < nbVies; i++) {
+        dest.x = i * dest.w;
+        dest.y = 0;
+        SDL_RenderCopy(renderer, textures->vies, NULL, &dest);
+    }
+}
+
 //rafraichissement de la fenetre et donc de l'affichage du sprite
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world) {
-    apply_sprite(renderer, textures, world->sprite);
+    afficher_sprite(renderer, textures, world->sprite);
+    afficher_vies(renderer, textures, world->vies);
 }
