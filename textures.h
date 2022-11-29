@@ -14,6 +14,7 @@ typedef struct s_textures {
     SDL_Texture* cles;
     SDL_Texture* porteOuverte;
     SDL_Texture* porteFerme;
+    SDL_Texture* pad;
 } s_textures_t;
 
 void init_textures_map(s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH);

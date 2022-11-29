@@ -47,6 +47,9 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
             case '5':
                 SDL_RenderCopy(renderer, textures->porteOuverte, NULL, &destBlocs);
                 break;
+            case 'a':
+                SDL_RenderCopy(renderer,textures->pad, NULL, &destBlocs);
+                break;
             default:
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[1], &destBlocs);
                 break;

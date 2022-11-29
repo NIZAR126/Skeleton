@@ -15,10 +15,11 @@ int main(int argc, char *argv[]) {
     SDL_Window* fenetre;
     SDL_Event event;
 
+    init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, "terrain0.txt");
     //lecture du fichier terrain et retranscription en un tableau
     int nbLig = 0;
     int nbCol = 0;
-    taille_fichier("terrain.txt", &nbLig, &nbCol);
+    taille_fichier("terrain0.txt", &nbLig, &nbCol);
     //char** tab = lire_fichier("terrain.txt");
     //printf("nbLig : %d, nbCol : %d", nbLig, nbCol);
     //afficher_tab_2D(tab, nbLig, nbCol);
@@ -55,9 +56,9 @@ int main(int argc, char *argv[]) {
     textures->cles = charger_image("ressources/cle.bmp", renderer);
     textures->porteFerme = charger_image("ressources/porteFerme.bmp", renderer);
     textures->porteOuverte = charger_image("ressources/porteOuverte.bmp", renderer);
+    textures->pad = charger_image("ressources/pad.bmp", renderer);
     init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
-    init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE);
 
     while (!world->fin) {
         SDL_RenderClear(renderer);
@@ -71,6 +72,13 @@ int main(int argc, char *argv[]) {
 
     SDL_DestroyTexture(textures->blocs);
     SDL_DestroyTexture(textures->sprite);
+    SDL_DestroyTexture(textures->lave);
+    SDL_DestroyTexture(textures->vies);
+    SDL_DestroyTexture(textures->cles);
+    SDL_DestroyTexture(textures->porteFerme);
+    SDL_DestroyTexture(textures->porteOuverte);
+    SDL_DestroyTexture(textures->pad);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();

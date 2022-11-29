@@ -7,7 +7,7 @@
 #include "fonctions_fichiers.h"
 
 //initialisation de world(sprite, vitesse du sprite et fin de la boucle(jeu))
-void init_world(s_world_t* world, int x, int y, int w, int h) {
+void init_world(s_world_t* world, int x, int y, int w, int h, char* terrain) {
     world->sprite = malloc(sizeof(s_sprite_t));
     world->sprite->x = x;
     world->sprite->y = y;
@@ -15,10 +15,8 @@ void init_world(s_world_t* world, int x, int y, int w, int h) {
     world->sprite->h = h;
     world->fin = false;
     world->vies = NBVIES;
-    world->cles = NBCLES;
     world->clesRecup = 0;
-    world->tab = lire_fichier("terrain.txt");
-    world->numTerrain = 1;
+    world->tab = lire_fichier(terrain);
 }
 
 //collisions
@@ -113,11 +111,13 @@ bool collision_char(s_sprite_t* sprite, char c, char** tab) {
     return col;
 }
 
-void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
+void gravite(s_world_t* world, int nbLig) {
     if (!collision_bas(world->sprite, world->tab, nbLig)) {
         world->sprite->y += GRAVITE;
     }
+}
 
+void vies(s_world_t* world) {
     if (collision_char(world->sprite, '2', world->tab)) {
         world->sprite->x = 0;
         world->sprite->y = 0;
@@ -126,7 +126,9 @@ void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
     if (world->vies == 0) {
         world->fin = true;
     }
+}
 
+void cles(s_world_t* world, int nbLig, int nbCol) {
     if (collision_droit_char(world->sprite, '3', world->tab)) {
         world->tab[(world->sprite->y + world->sprite->h / 2) / TAILLE_BLOC][(world->sprite->x + world->sprite->w) / TAILLE_BLOC] = ' ';
         world->clesRecup += 1;
@@ -141,17 +143,26 @@ void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
     if (world->clesRecup == NBCLES) {
         world->tab = modifier_caractere(world->tab, nbLig, nbCol, '4', '5');
     }
+    //printf("nbCles: %d\n", world->clesRecup);
+}
+
+void pad(s_world_t* world) {
+    if (collision_char(world->sprite, 'a', world->tab)) {
+        world->sprite->y -= 20 * VITESSE;
+    }
+}
+
+void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
+    gravite(world, nbLig);
+    vies(world);
+    cles(world, nbLig, nbCol);
+    pad(world);
 
     if (collision_char(world->sprite, '5', world->tab)) {
-        init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE);
         world->numTerrain += 1;
-        world->tab = lire_fichier("terrain2.txt");
-        /*world->numTerrain += 1;
-        char terrain[] = "terrain .txt";
-        terrain[7] = world->numTerrain;
-        printf("%s", terrain);
-        world->tab = lire_fichier(terrain);
-        world->sprite->x = 0;
-        world->sprite->y = 0;*/
+        char terrain[13];
+        sprintf(terrain, "terrain%d.txt", world->numTerrain);
+        printf("%s\n", terrain);
+        init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, terrain);
     }
 }
