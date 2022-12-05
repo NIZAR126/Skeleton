@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
     textures->porteFerme = charger_image("ressources/porteFerme.bmp", renderer);
     textures->porteOuverte = charger_image("ressources/porteOuverte.bmp", renderer);
     textures->pad = charger_image("ressources/pad.bmp", renderer);
+
     init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH);
     //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
 
@@ -70,15 +71,7 @@ int main(int argc, char *argv[]) {
         SDL_Delay(30);
     }
 
-    SDL_DestroyTexture(textures->blocs);
-    SDL_DestroyTexture(textures->sprite);
-    SDL_DestroyTexture(textures->lave);
-    SDL_DestroyTexture(textures->vies);
-    SDL_DestroyTexture(textures->cles);
-    SDL_DestroyTexture(textures->porteFerme);
-    SDL_DestroyTexture(textures->porteOuverte);
-    SDL_DestroyTexture(textures->pad);
-
+    cleanTextures(textures);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();

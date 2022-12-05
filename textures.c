@@ -31,7 +31,7 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
             destBlocs.w = TAILLE_BLOC;
             destBlocs.h = TAILLE_BLOC;
 
-            switch (tab[i][j]) {    //affichage des textures (srcBlocs[]) en fonction des caracteres du tableau
+            switch (tab[i][j]) {    //affichage des textures en fonction des caracteres du tableau
             case '1':
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[9], &destBlocs);
                 break;
@@ -95,4 +95,16 @@ void afficher_vies(SDL_Renderer* renderer, s_textures_t* textures, int nbVies) {
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world) {
     afficher_sprite(renderer, textures, world->sprite);
     afficher_vies(renderer, textures, world->vies);
+}
+
+//destruction des textures
+void cleanTextures(s_textures_t* textures) {
+    SDL_DestroyTexture(textures->blocs);
+    SDL_DestroyTexture(textures->sprite);
+    SDL_DestroyTexture(textures->lave);
+    SDL_DestroyTexture(textures->vies);
+    SDL_DestroyTexture(textures->cles);
+    SDL_DestroyTexture(textures->porteFerme);
+    SDL_DestroyTexture(textures->porteOuverte);
+    SDL_DestroyTexture(textures->pad);
 }

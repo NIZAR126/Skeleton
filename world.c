@@ -111,12 +111,14 @@ bool collision_char(s_sprite_t* sprite, char c, char** tab) {
     return col;
 }
 
+//gestion de la gravite
 void gravite(s_world_t* world, int nbLig) {
     if (!collision_bas(world->sprite, world->tab, nbLig)) {
         world->sprite->y += GRAVITE;
     }
 }
 
+//gestion du nombre de vie et donc fin du jeu
 void vies(s_world_t* world) {
     if (collision_char(world->sprite, '2', world->tab)) {
         world->sprite->x = 0;
@@ -128,6 +130,7 @@ void vies(s_world_t* world) {
     }
 }
 
+//gestion des cles a recuperer pour ouvrir la porte
 void cles(s_world_t* world, int nbLig, int nbCol) {
     if (collision_droit_char(world->sprite, '3', world->tab)) {
         world->tab[(world->sprite->y + world->sprite->h / 2) / TAILLE_BLOC][(world->sprite->x + world->sprite->w) / TAILLE_BLOC] = ' ';
@@ -146,12 +149,14 @@ void cles(s_world_t* world, int nbLig, int nbCol) {
     //printf("nbCles: %d\n", world->clesRecup);
 }
 
+//gestion des pad (pour sauter plus haut)
 void pad(s_world_t* world) {
     if (collision_char(world->sprite, 'a', world->tab)) {
         world->sprite->y -= 20 * VITESSE;
     }
 }
 
+//gestion de tous les evenements qui modifie le gameplay
 void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
     gravite(world, nbLig);
     vies(world);

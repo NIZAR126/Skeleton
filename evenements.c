@@ -23,7 +23,7 @@ void evenements(SDL_Event event, s_world_t* world, int nbLig, int nbCol) {
         if (state[SDL_SCANCODE_LEFT] && !collision_gauche(world->sprite, world->tab)) {
             world->sprite->x -= VITESSE;
         }
-        if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, world->tab) && collision_bas(world->sprite, world->tab, nbLig)) {
+        if (state[SDL_SCANCODE_SPACE] && !collision_haut(world->sprite, world->tab) && collision_bas(world->sprite, world->tab, nbLig)) {
             world->sprite->y -= 10 * VITESSE;
         }
         /*if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, tab) && state[SDL_SCANCODE_RIGHT] && !collision_droit(world->sprite, tab, nbCol)) {

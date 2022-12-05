@@ -23,5 +23,6 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
 void afficher_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite);
 void afficher_vies(SDL_Renderer* renderer, s_textures_t* textures, int nbVies);
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world);
+void cleanTextures(s_textures_t* textures);
 
 #endif
