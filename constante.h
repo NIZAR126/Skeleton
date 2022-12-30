@@ -4,5 +4,6 @@
 #define TAILLE_PORTE 64
 #define VITESSE 5
 #define GRAVITE 2
-#define NBVIES 5
+#define NBVIES 3
 #define NBCLES 4
+#define NBTERRAINS 4

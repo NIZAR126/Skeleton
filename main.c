@@ -15,14 +15,13 @@ int main(int argc, char *argv[]) {
     SDL_Window* fenetre;
     SDL_Event event;
 
-    init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, "terrain0.txt");
+    //initialisation du premier niveau
+    init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, "txt/terrain0.txt");
+
     //lecture du fichier terrain et retranscription en un tableau
     int nbLig = 0;
     int nbCol = 0;
-    taille_fichier("terrain0.txt", &nbLig, &nbCol);
-    //char** tab = lire_fichier("terrain.txt");
-    //printf("nbLig : %d, nbCol : %d", nbLig, nbCol);
-    //afficher_tab_2D(tab, nbLig, nbCol);
+    taille_fichier("txt/terrain0.txt", &nbLig, &nbCol);
 
     //initialisation sdl
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -32,7 +31,7 @@ int main(int argc, char *argv[]) {
     }
 
     //creation de la fenetre sdl
-    fenetre = SDL_CreateWindow("Fenetre SDL", SDL_WINDOWPOS_CENTERED,
+    fenetre = SDL_CreateWindow("the skeleton trip", SDL_WINDOWPOS_CENTERED,
     SDL_WINDOWPOS_CENTERED, nbCol * TAILLE_BLOC, nbLig * TAILLE_BLOC, SDL_WINDOW_RESIZABLE);
 
     if (fenetre == NULL) {
@@ -48,33 +47,39 @@ int main(int argc, char *argv[]) {
     int nbBlocsH = 10;
     //creation d'un tableau de rectangle de la taille du nombre de blocs du fichier bmp et d'un rectangle pour la destination
     SDL_Rect srcBlocs[nbBlocsW * nbBlocsH], destBlocs; 
-    //chargement des textures des images
+    //chargement des textures des images (fait ici car je n'arrrivais pas à le faire depuis textures.c)
     textures->blocs = charger_image("ressources/pavage.bmp", renderer);
     textures->sprite = charger_image_transparente("ressources/skeleton.bmp", renderer, 0, 0, 0);
     textures->lave = charger_image("ressources/lave.bmp", renderer);
     textures->vies = charger_image_transparente("ressources/vies.bmp", renderer, 255, 255, 255);
     textures->cles = charger_image("ressources/cle.bmp", renderer);
-    textures->porteFerme = charger_image("ressources/porteFerme.bmp", renderer);
-    textures->porteOuverte = charger_image("ressources/porteOuverte.bmp", renderer);
-    textures->pad = charger_image("ressources/pad.bmp", renderer);
+    textures->porteFermeB = charger_image("ressources/porteFermeB.bmp", renderer);
+    textures->porteFermeH = charger_image("ressources/porteFermeH.bmp", renderer);
+    textures->porteOuverteB = charger_image("ressources/porteOuverteB.bmp", renderer);
+    textures->porteOuverteH = charger_image("ressources/porteOuverteH.bmp", renderer);
+    textures->padH = charger_image("ressources/padH.bmp", renderer);
+    textures->padG = charger_image("ressources/padG.bmp", renderer);
+    textures->padD = charger_image("ressources/padD.bmp", renderer);
 
+    //creation des differents sdl rect contenu dans le fichier pavage.bmp
     init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH);
-    //init_textures(renderer, textures, srcBlocs, nbBlocsW, nbBlocsH, &blocW, &blocH);
 
+    //boucle principale
     while (!world->fin) {
         SDL_RenderClear(renderer);
-        afficher_map(renderer, textures, srcBlocs, destBlocs, world->tab, nbLig, nbCol);  
-        evenements(event, world, nbLig, nbCol);
-        refresh_graphics(renderer, textures, world);
+        afficher_map(renderer, textures, srcBlocs, destBlocs, world->tab, nbLig, nbCol); //affichage de la map en initialisant destBlocs en fonction du tableau cree a partir des fichiers terrains
+        evenements(event, world, nbLig, nbCol); //gestion des evenements
+        refresh_graphics(renderer, textures, world); //rafraichissement de la fenetre et donc de l'affichage du sprite
         SDL_RenderPresent(renderer);  
-        //printf("x: %d, y: %d\n", world->sprite->x, world->sprite->y);
         SDL_Delay(30);
+        gagnerOuPerdu(world, textures); //affichage de la fenetre de fin en fonction de victoire ou defaite
     }
 
+    //destruction des textures et fin de la sdl et du programme
     cleanTextures(textures);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);
     SDL_Quit();
-
+    
     return 0;
 }

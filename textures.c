@@ -6,7 +6,7 @@
 #include "constante.h"
 #include "world.h"
 
-//initialisation de la taille de chaque rectangle 
+//initialisation de la taille de chaque rectangle du fichier pavage.bmp
 void init_textures_map(s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH) {
     int blocW = 0, blocH = 0;
     SDL_QueryTexture(textures->blocs, NULL, NULL, &blocW, &blocH);
@@ -42,13 +42,25 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
                 SDL_RenderCopy(renderer, textures->cles, NULL, &destBlocs);
                 break;
             case '4':
-                SDL_RenderCopy(renderer, textures->porteFerme, NULL, &destBlocs);
+                SDL_RenderCopy(renderer, textures->porteFermeB, NULL, &destBlocs);
                 break;
             case '5':
-                SDL_RenderCopy(renderer, textures->porteOuverte, NULL, &destBlocs);
+                SDL_RenderCopy(renderer, textures->porteFermeH, NULL, &destBlocs);
                 break;
-            case 'a':
-                SDL_RenderCopy(renderer,textures->pad, NULL, &destBlocs);
+            case '6':
+                SDL_RenderCopy(renderer, textures->porteOuverteB, NULL, &destBlocs);
+                break;
+            case '7':
+                SDL_RenderCopy(renderer, textures->porteOuverteH, NULL, &destBlocs);
+                break;
+            case 'h':
+                SDL_RenderCopy(renderer,textures->padH, NULL, &destBlocs);
+                break;
+            case 'g':
+                SDL_RenderCopy(renderer,textures->padG, NULL, &destBlocs);
+                break;
+            case 'd':
+                SDL_RenderCopy(renderer,textures->padD, NULL, &destBlocs);
                 break;
             default:
                 SDL_RenderCopy(renderer, textures->blocs, &srcBlocs[1], &destBlocs);
@@ -58,21 +70,9 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
     }  
 }
 
-/*void init_textures(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH, int* blocW, int* blocH) {
-    init_textures_map(textures, srcBlocs, nbBlocsW, nbBlocsH, blocW, blocH);
-    textures->sprite = charger_image_transparente("skeleton.bmp", renderer, 0, 0, 0);
-}*/
-
 //application de la texture du sprite en fonction de sa position
 void afficher_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite) {
-    //SDL_Rect src;
-    //src.x = 0;
-    //src.y = 0;
-    //src.w = sprite->w;
-    //src.h = sprite->h;
-
     SDL_Rect dest;
-    //SDL_QueryTexture(textures->sprite, NULL, NULL, &dest.w, &dest.h);
     dest.x = sprite->x;
     dest.y = sprite->y;
     dest.w = sprite->w;
@@ -91,6 +91,20 @@ void afficher_vies(SDL_Renderer* renderer, s_textures_t* textures, int nbVies) {
     }
 }
 
+//affichage de la fenetre de fin en fonction de victoire ou defaite
+void gagnerOuPerdu(s_world_t* world, s_textures_t* textures) {
+    if (world->perdu) {
+        init_world(world, 0, 0, 0, 0, "txt/gameover.txt");
+        SDL_DestroyTexture(textures->vies);
+        SDL_DestroyTexture(textures->sprite);
+    }
+    if (world->gagner) {
+        init_world(world, 0, 0, 0, 0, "txt/goodjob.txt");
+        SDL_DestroyTexture(textures->vies);
+        SDL_DestroyTexture(textures->sprite);
+    }
+}
+
 //rafraichissement de la fenetre et donc de l'affichage du sprite
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world) {
     afficher_sprite(renderer, textures, world->sprite);
@@ -104,7 +118,11 @@ void cleanTextures(s_textures_t* textures) {
     SDL_DestroyTexture(textures->lave);
     SDL_DestroyTexture(textures->vies);
     SDL_DestroyTexture(textures->cles);
-    SDL_DestroyTexture(textures->porteFerme);
-    SDL_DestroyTexture(textures->porteOuverte);
-    SDL_DestroyTexture(textures->pad);
+    SDL_DestroyTexture(textures->porteFermeB);
+    SDL_DestroyTexture(textures->porteFermeH);
+    SDL_DestroyTexture(textures->porteOuverteB);
+    SDL_DestroyTexture(textures->porteOuverteH);
+    SDL_DestroyTexture(textures->padH);
+    SDL_DestroyTexture(textures->padG);
+    SDL_DestroyTexture(textures->padD);
 }

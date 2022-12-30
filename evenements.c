@@ -11,7 +11,6 @@
 void evenements(SDL_Event event, s_world_t* world, int nbLig, int nbCol) {
     Uint8 *state = SDL_GetKeyboardState(NULL);
     while (SDL_PollEvent(&event)) {
-        //SDL_WaitEvent(&event);
         switch (event.type) {
             case SDL_QUIT:
                 world->fin = true;
@@ -26,10 +25,6 @@ void evenements(SDL_Event event, s_world_t* world, int nbLig, int nbCol) {
         if (state[SDL_SCANCODE_SPACE] && !collision_haut(world->sprite, world->tab) && collision_bas(world->sprite, world->tab, nbLig)) {
             world->sprite->y -= 10 * VITESSE;
         }
-        /*if (state[SDL_SCANCODE_UP] && !collision_haut(world->sprite, tab) && state[SDL_SCANCODE_RIGHT] && !collision_droit(world->sprite, tab, nbCol)) {
-            world->sprite->y -= 5 * VITESSE;
-            world->sprite->x += VITESSE;
-        }*/     
         if (state[SDL_SCANCODE_ESCAPE]) {
             world->fin = true;
         }

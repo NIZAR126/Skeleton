@@ -19,6 +19,8 @@ typedef struct s_world {
     int clesRecup;
     char** tab;
     int numTerrain;
+    bool gagner;
+    bool perdu;
 } s_world_t;
 
 void init_world(s_world_t* world, int x, int y, int w, int h, char* terrain);
@@ -34,7 +36,9 @@ bool collision_char(s_sprite_t* sprite, char c, char** tab);
 void gravite(s_world_t* world, int nbLig);
 void vies(s_world_t* world);
 void cles(s_world_t* world, int nbLig, int nbCol);
-void pad(s_world_t* world);
+void padH(s_world_t* world);
+void padG(s_world_t* world);
+void padD(s_world_t* world);
 void deplacements_map(s_world_t* world, int nbLig, int nbCol);
 
 #endif

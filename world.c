@@ -17,6 +17,8 @@ void init_world(s_world_t* world, int x, int y, int w, int h, char* terrain) {
     world->vies = NBVIES;
     world->clesRecup = 0;
     world->tab = lire_fichier(terrain);
+    world->gagner = false;
+    world->perdu = false;
 }
 
 //collisions
@@ -120,18 +122,20 @@ void gravite(s_world_t* world, int nbLig) {
 
 //gestion du nombre de vie et donc fin du jeu
 void vies(s_world_t* world) {
+    //si collision entre le sprite et la lave, on perd une vie
     if (collision_char(world->sprite, '2', world->tab)) {
         world->sprite->x = 0;
         world->sprite->y = 0;
         world->vies -= 1;
     }
     if (world->vies == 0) {
-        world->fin = true;
+        world->perdu = true;
     }
 }
 
 //gestion des cles a recuperer pour ouvrir la porte
 void cles(s_world_t* world, int nbLig, int nbCol) {
+    //si il y a collision entre le sprite et une cle, on retire la cle
     if (collision_droit_char(world->sprite, '3', world->tab)) {
         world->tab[(world->sprite->y + world->sprite->h / 2) / TAILLE_BLOC][(world->sprite->x + world->sprite->w) / TAILLE_BLOC] = ' ';
         world->clesRecup += 1;
@@ -143,31 +147,52 @@ void cles(s_world_t* world, int nbLig, int nbCol) {
         world->clesRecup += 1;
     }
 
+    //si l'on a recupere toutes les cles, les caracteres representant la porte fermee sont changes par ceux representant la porte ouverte
     if (world->clesRecup == NBCLES) {
-        world->tab = modifier_caractere(world->tab, nbLig, nbCol, '4', '5');
+        world->tab = modifier_caractere(world->tab, nbLig, nbCol, '4', '6');
+        world->tab = modifier_caractere(world->tab, nbLig, nbCol, '5', '7');
     }
-    //printf("nbCles: %d\n", world->clesRecup);
 }
 
-//gestion des pad (pour sauter plus haut)
-void pad(s_world_t* world) {
-    if (collision_char(world->sprite, 'a', world->tab)) {
+//gestion des pad (pour aller plus loin dans une direction)
+void padH(s_world_t* world) {
+    if (collision_char(world->sprite, 'h', world->tab)) {
         world->sprite->y -= 20 * VITESSE;
     }
 }
+
+void padG(s_world_t* world) {
+    if (collision_char(world->sprite, 'g', world->tab)) {
+        world->sprite->x -= 20 * VITESSE;
+    }
+}
+
+void padD(s_world_t* world) {
+    if (collision_char(world->sprite, 'd', world->tab)) {
+        world->sprite->x += 20 * VITESSE;
+    }
+}
+
 
 //gestion de tous les evenements qui modifie le gameplay
 void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
     gravite(world, nbLig);
     vies(world);
     cles(world, nbLig, nbCol);
-    pad(world);
+    padH(world);
+    padG(world);
+    padD(world);
 
-    if (collision_char(world->sprite, '5', world->tab)) {
+    //si collision entre le sprite et une porte ouverte, on passe au niveau suivant
+    if (collision_char(world->sprite, '6', world->tab) || collision_char(world->sprite, '7', world->tab)) {
         world->numTerrain += 1;
-        char terrain[13];
-        sprintf(terrain, "terrain%d.txt", world->numTerrain);
-        printf("%s\n", terrain);
-        init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, terrain);
+        if (world->numTerrain >= NBTERRAINS) {
+            world->gagner = true;
+        } else {
+            char terrain[17];
+            sprintf(terrain, "txt/terrain%d.txt", world->numTerrain);
+            printf("%s\n", terrain);
+            init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, terrain);
+        }
     }
 }

@@ -12,9 +12,13 @@ typedef struct s_textures {
     SDL_Texture* lave;
     SDL_Texture* vies;
     SDL_Texture* cles;
-    SDL_Texture* porteOuverte;
-    SDL_Texture* porteFerme;
-    SDL_Texture* pad;
+    SDL_Texture* porteOuverteB;
+    SDL_Texture* porteOuverteH;
+    SDL_Texture* porteFermeB;
+    SDL_Texture* porteFermeH;
+    SDL_Texture* padH;
+    SDL_Texture* padG;
+    SDL_Texture* padD;
 } s_textures_t;
 
 void init_textures_map(s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH);
@@ -22,6 +26,7 @@ void afficher_map(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBl
 //void init_textures(SDL_Renderer* renderer, s_textures_t* textures, SDL_Rect srcBlocs[], int nbBlocsW, int nbBlocsH, int* blocW, int* blocH);
 void afficher_sprite(SDL_Renderer* renderer, s_textures_t* textures, s_sprite_t* sprite);
 void afficher_vies(SDL_Renderer* renderer, s_textures_t* textures, int nbVies);
+void gagnerOuPerdu(s_world_t* world, s_textures_t* textures);
 void refresh_graphics(SDL_Renderer* renderer, s_textures_t* textures, s_world_t* world);
 void cleanTextures(s_textures_t* textures);
 
