@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
     }
 
     //destruction des textures et fin de la sdl et du programme
+    free_world(world);
     cleanTextures(textures);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(fenetre);

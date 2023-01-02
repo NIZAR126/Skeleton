@@ -3,6 +3,7 @@
 #define TAILLE_VIE 25
 #define TAILLE_PORTE 64
 #define VITESSE 5
+#define SAUT 50
 #define GRAVITE 2
 #define NBVIES 3
 #define NBCLES 4

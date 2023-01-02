@@ -21,6 +21,13 @@ void init_world(s_world_t* world, int x, int y, int w, int h, char* terrain) {
     world->perdu = false;
 }
 
+void free_world(s_world_t* world) {
+    free(world->sprite);
+    world->sprite = NULL;
+    free(world);
+    world = NULL;
+}
+
 //collisions
 
 bool collision_droit(s_sprite_t* sprite, char** tab, int nbCol) {
@@ -46,8 +53,10 @@ bool collision_gauche(s_sprite_t* sprite, char** tab) {
 bool collision_haut(s_sprite_t* sprite, char** tab) {
     bool col = false;
     for (int i = 0; i < sprite->w; i++) {
-        if (tab[(sprite->y) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ' || sprite->y <= 0) {
-            col = true;
+        for (int j = 0; j < SAUT; j++) {
+            if (tab[(sprite->y - j) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ' || sprite->y <= 0) {
+                col = true;
+            }
         }
     }
     return col;
@@ -56,8 +65,10 @@ bool collision_haut(s_sprite_t* sprite, char** tab) {
 bool collision_bas(s_sprite_t* sprite, char** tab, int nbLig) {
     bool col = false;
     for (int i = 0; i < sprite->w; i++) {
-        if (tab[(sprite->y + sprite->h) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ' || (sprite->y + sprite->h) >= TAILLE_BLOC * nbLig) {
-            col = true;
+        for (int j = 0; j < GRAVITE; j++) {
+            if (tab[(sprite->y + sprite->h + j) / TAILLE_BLOC][(sprite->x + i) / TAILLE_BLOC] != ' ' || (sprite->y + sprite->h) >= TAILLE_BLOC * nbLig) {
+                col = true;
+            }
         }
     }
     return col;
@@ -191,7 +202,6 @@ void deplacements_map(s_world_t* world, int nbLig, int nbCol) {
         } else {
             char terrain[17];
             sprintf(terrain, "txt/terrain%d.txt", world->numTerrain);
-            printf("%s\n", terrain);
             init_world(world, 0, 0, TAILLE_SPRITE, TAILLE_SPRITE, terrain);
         }
     }

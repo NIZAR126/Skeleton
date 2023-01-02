@@ -125,4 +125,6 @@ void cleanTextures(s_textures_t* textures) {
     SDL_DestroyTexture(textures->padH);
     SDL_DestroyTexture(textures->padG);
     SDL_DestroyTexture(textures->padD);
+    free(textures);
+    textures = NULL;
 }
